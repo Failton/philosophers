@@ -1,7 +1,6 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "libft.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
@@ -42,4 +41,5 @@ void				do_threads(t_philos *philos, t_settings *settings);
 long int			timestamp(t_philos *philos);
 void				ft_usleep(t_philos *philos, long int time_in_ms);
 void				print_mtx(t_philos *philos, char *msg);
+int					ft_atoi(const char *str);
 #endif

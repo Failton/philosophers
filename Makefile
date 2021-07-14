@@ -17,7 +17,7 @@ obj = $(addprefix $(OBJDIR)/,$(addsuffix .o, $(basename $(notdir $(src)))))
 all = $(NAME)
 
 all: $(obj)
-	@$(cc) -o $(NAME) $(option) $^ libft/libft.a
+	@$(cc) -o $(NAME) $(option) $^
 
 $(OBJDIR)/%.o:  src/%.c
 	@mkdir -p $(OBJDIR)
