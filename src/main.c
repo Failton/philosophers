@@ -2,7 +2,8 @@
 
 int	checker(t_philos *philos)
 {
-	int eat;
+	int			eat;
+	long int	now;
 
 	eat = 0;
 	while (eat != philos->settings->num_philo)
@@ -11,34 +12,35 @@ int	checker(t_philos *philos)
 			eat++;
 		else
 			eat = 0;
-		if (philos->died == 1)
+		now = timestamp(philos);
+		if (now - philos->last_eat > philos->settings->time_die)
 		{
 			pthread_mutex_lock(&(philos->settings->print_mtx));
 			printf("%ld %d died\n", timestamp(philos), philos->no);
-			return(1);
+			return (1);
 		}
 		philos = philos->next;
 	}
-	return(1);
+	return (1);
 }
 
 int	freesher(t_philos *philos)
 {
-	t_philos *prev;
+	t_philos	*prev;
 
 	while (philos->no != philos->settings->num_philo)
 	{
-		usleep(100000);
+		usleep(3000);
 		pthread_mutex_destroy(&(philos->fork));
 		prev = philos;
 		philos = philos->next;
 		free(prev);
 	}
-	usleep(100000);
+	usleep(3000);
 	pthread_mutex_destroy(&(philos->fork));
 	pthread_mutex_destroy(&(philos->settings->print_mtx));
 	free(philos);
-	return(0);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -51,11 +53,16 @@ int	main(int argc, char **argv)
 	parcer_error = parcer(argc, argv, &settings);
 	if (parcer_error != 0)
 	{
-		printf("%s", INVALID_ARGS);
+		if (parcer_error == 1)
+			printf("%s", INVALID_ARGS);
+		else
+			printf("%s", ERROR);
 		return (1);
 	}
-	set_philos(&philos, &settings);
-	do_threads(philos, &settings);
+	if (set_philos(&philos, &settings))
+		return (1);
+	if (do_threads(philos, &settings))
+		return (1);
 	checker(philos);
 	freesher(philos);
 	return (0);

@@ -2,9 +2,9 @@
 
 int	ft_atoi(const char *str)
 {
-	int i;
-	int num;
-	int minus;
+	int	i;
+	int	num;
+	int	minus;
 
 	num = 0;
 	minus = 2;

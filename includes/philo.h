@@ -9,8 +9,9 @@
 # include <sys/time.h>
 
 # define INVALID_ARGS "Error: Invalid args"
+# define ERROR "Error while running program..."
 
-typedef struct		s_settings
+typedef struct s_settings
 {
 	int				num_philo;
 	int				time_die;
@@ -22,7 +23,7 @@ typedef struct		s_settings
 	struct timeval	start_time;
 }					t_settings;
 
-typedef struct		s_philos
+typedef struct s_philos
 {
 	int				no;
 	pthread_t		thread;
@@ -37,9 +38,8 @@ typedef struct		s_philos
 
 int					parcer(int argc, char **argv, t_settings *base);
 int					set_philos(t_philos **philos, t_settings *settings);
-void				do_threads(t_philos *philos, t_settings *settings);
+int					do_threads(t_philos *philos, t_settings *settings);
 long int			timestamp(t_philos *philos);
-void				ft_usleep(t_philos *philos, long int time_in_ms);
 void				print_mtx(t_philos *philos, char *msg);
 int					ft_atoi(const char *str);
 #endif
